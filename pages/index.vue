@@ -22,6 +22,17 @@
 
 <script setup>
 
+/**
+ * 页面head配置
+ */
+useHead({
+    title: '首页',
+    meta:[
+        { name:"description",content:"首页描述" },
+        { name:"keywords",content:"首页关键词" },
+    ],
+})
+
 const { data, pending, error, refresh } = await useFetch('pc/index', {
     key: 'IndexData',
     baseURL: 'http://demonuxtapi.dishait.cn/',

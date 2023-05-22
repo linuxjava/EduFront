@@ -31,7 +31,7 @@ function useCountDown(end_time) {
     }
 
     close()//先关闭定时器防止异常
-    setInterval(() => {
+    Timer.value = setInterval(() => {
         timeout.value--
         if(timeout.value <= 0) {
             close()
