@@ -50,4 +50,7 @@ export default defineNuxtConfig({
     css:[
         "@/assets/main.css"
     ],
+    imports:{
+        dirs:["apis"]
+    }
 })

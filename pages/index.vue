@@ -1,11 +1,5 @@
 <template>
-    <template v-if="pending">
-        加载中....
-    </template>
-    <template v-else-if="error">
-        错误信息: {{ error.data?.data }}
-    </template>
-    <template v-else>
+    <LoadingGroup :pending="pending" :error="error">
         <!-- 如果將Banner組件放在如下template中無法顯示輪播圖很奇怪
         <template>
         </template> -->
@@ -14,10 +8,10 @@
             <ImageNav v-if="item.type == 'icons'" :data="item.data" class="mb-2"/>
             <ImageAd v-if="item.type == 'imageAd'" :data="item.data" class="mb-6"/>
             <ListCard v-if="item.type == 'list'" :title="item.title" :data="item.data" class="mb-6"/>
-            <ListCard v-if="item.type == 'promotion'" :type="item.listType" :title="item.title" :data="item.data" class="mb-6"/>
+            <!-- //拼团 -->
+            <ListCard v-if="item.type == 'promotion'" :type="item.listType" :title="item.title" class="mb-6"/>
         </template>
-        
-    </template>
+    </LoadingGroup>
 </template>
 
 <script setup>
@@ -33,15 +27,7 @@ useHead({
     ],
 })
 
-const { data, pending, error, refresh } = await useFetch('pc/index', {
-    key: 'IndexData',
-    baseURL: 'http://demonuxtapi.dishait.cn/',
-    headers: {
-        appid: 'bd9d01ecc75dbbaaefce'
-    },
-    transform: (res) => { return res.data },
-    lazy: true
-})
+const { data, pending, error, refresh } = await useIndexDataApi()
 
 //捕获服务端渲染错误
 if (process.server && error.value) {
