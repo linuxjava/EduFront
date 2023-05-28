@@ -1,25 +1,6 @@
 <template>
     <template v-if="loading">
-        <!-- 骨架屏 -->
-        <n-skeleton text style="width: 50%;margin-top: 30px;" />
-        <n-skeleton text :repeat="2" />
-        <n-skeleton text style="width: 50%" />
-
-        <n-skeleton text style="width: 60%;margin-top: 30px;" />
-        <n-skeleton text :repeat="2" />
-        <n-skeleton text style="width: 60%" />
-
-        <n-skeleton text style="width: 70%;margin-top: 30px;" />
-        <n-skeleton text :repeat="2" />
-        <n-skeleton text style="width: 70%" />
-
-        <n-skeleton text style="width: 80%;margin-top: 30px;" />
-        <n-skeleton text :repeat="2" />
-        <n-skeleton text style="width: 80%" />
-
-        <n-skeleton text style="width: 90%;margin-top: 30px;" />
-        <n-skeleton text :repeat="2" />
-        <n-skeleton text style="width: 90%" />
+        <loading-skeleton></loading-skeleton>
     </template>
     <template v-else-if="error">
         <!-- 页面错误处理 -->
@@ -53,9 +34,9 @@ const stopWatch = watchEffect(() => {
     if (props.pending && !loading.value){
         loading.value = true
     } else {
-        setInterval(() => {
+        setTimeout(() => {
             loading.value = false
-        }, 200)
+        }, 300)
     }
 })
 

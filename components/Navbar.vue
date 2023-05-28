@@ -15,7 +15,7 @@
                     {{ item.name }}</UiMenuItem>
             </UiMenu>
 
-            <n-button circle class="ml-auto mr-3">
+            <n-button circle class="ml-auto mr-3" @click="search">
                 <template #icon>
                     <Search></Search>
                 </template>
@@ -27,6 +27,7 @@
         </div>
     </div>
     <div class="w-[100%] h-[80px]"></div>
+    <SearchBar ref="SearchBarRef"></SearchBar>
 </template>
 <script setup lang="ts">
 import { NButton, NIcon, NDropdown, NAvatar } from 'naive-ui'
@@ -47,6 +48,8 @@ const renderIcon = (icon: Component) => {
 }
 
 const route = useRoute()
+
+const SearchBarRef = ref(null)
 
 const menus = [{
     name: "首页",
@@ -160,6 +163,13 @@ const isMenuItemActive = (item) => {
 
 function handleMenuClick(item) {
     navigateTo(item.path)
+}
+
+/**
+ * 点击搜索
+ */
+function search() {
+    SearchBarRef.value.open()
 }
 
 </script>

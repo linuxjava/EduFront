@@ -12,13 +12,11 @@ export default defineNuxtPlugin(nuxtApp => {
     })
     nuxtApp.hook('page:start', (e) => {
         loading.value?.start()
-        console.log('page:start')
     })
     nuxtApp.hook('page:finish', (e) => {
         setTimeout(() => {
             loading.value?.finish()
         }, 200)
-        console.log('page:finish')
     })
     nuxtApp.hook('app:error', (e) => {
         if(process.client) {
