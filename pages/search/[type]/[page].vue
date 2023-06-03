@@ -62,7 +62,14 @@ const { data, pending, error, refresh } = await searchDataApi(() => {
 
 //1.这里服务端渲染时data.value会为空，所以要判断是否为空否则服务端渲染报错
 //2.注意这里获取rows要使用计算属性，因为rows有可能改变
-const rows = computed(() => data.value?.rows ?? [])
+const rows = computed(() => {
+    // if(process.client) {
+    //     data.value.rows[0].cover = 'http://test.com'
+    //     console.log(data.value.rows[0])
+    // }
+    
+    return data.value?.rows ?? []
+})
 
 //监听keyword的变化重新进行网络请求
 const stop = watch(()=>route.query.keyword,(newVal)=>{

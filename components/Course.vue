@@ -3,7 +3,8 @@
         <n-card @click="$commonOpen(item)" class="cursor-pointer shadow-md !border-none
                          mt-4" content-style="padding: 0;" footer-style="padding: 0;">
             <template #cover>
-                <img :src="item.cover" class="w-[100%] h-[150px]">
+                <!-- <img :src="item.cover" class="w-[100%] h-[150px]"> -->
+                <UiImage :src="item.cover" class="w-[100%] h-[150px]"/>
             </template>
             <div class="h-[100%] ml-4 pt-2 truncate font-semibold">
                 {{ item.title }}
