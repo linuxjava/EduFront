@@ -36,7 +36,7 @@ definePageMeta({
 
 const route = useRoute()
 const title = ref(route.query.keyword)
-const { type, page } = route.params
+let { type, page } = route.params
 const pageSize = ref(1)
 //处理直接在搜索栏修改pageSize
 if (route.query.pageSize && route.query.pageSize > 0) {
@@ -83,27 +83,32 @@ const rows = computed(() => {
 const count = computed(() => data.value?.count)
 
 //监听keyword的变化重新进行网络请求
-const stop = watch(() => route.query.keyword, (newVal) => {
+const keywordWatch = watch(() => route.query.keyword, (newVal) => {
     title.value = newVal
     refresh()
 })
 
 //监听pageSize的变化重新进行网络请求
-const pageSizeStop = watch(() => route.query.pageSize, (newVal) => {
-    refresh()
-})
+// const pageSizeWatch = watch(() => route.query.pageSize, (newVal) => {
+//     refresh()
+// })
 
 onBeforeUnmount(() => {
-    stop()
-    pageSizeStop()
+    keywordWatch()
+    // pageSizeWatch()
 })
+
+//注意page和pageSize发生变化时的区别
+//1.page变化时，调用navigateTo会导致url地址发生变化，因此页面会重新初始化并加载
+//2.pageSize变化时
+//  2.1改变pageSize厚直接调用refresh刷新, 缺点是当切换pageSize没法将page设置为第一页
+//  2.2 为了解决2.1问题，可以将pageSize放到query中
 
 //分页页面变化监听
 function handlePageChange(p) {
     navigateTo({
         params: {
             ...route.params,
-            type,
             page: p
         },
         query: {
@@ -115,6 +120,16 @@ function handlePageChange(p) {
 //分页size变化监听
 function handlePageSizeChange(ps) {
     pageSize.value = ps
+    navigateTo({
+        params: {
+            ...route.params,
+            page: 1
+        },
+        query: {
+            ...route.query,
+            pageSize: pageSize.value
+        }
+    })
 }
 
 </script>
