@@ -2,8 +2,7 @@
     <div>
         <h5 class="text-lg my-3">"{{ title }}"的搜索相关结果</h5>
         <UiTab>
-            <UiTabItem v-for="(item, index) in tabs" :key="index" :active="item.value === type"
-                @click="tabItemClick(item)">
+            <UiTabItem v-for="(item, index) in tabs" :key="index" :active="item.value === type" @click="tabItemClick(item)">
                 {{ item.label }}</UiTabItem>
         </UiTab>
     </div>
@@ -13,10 +12,15 @@
                 <Course :title="item.title" :item="item"></Course>
             </n-gi>
         </n-grid>
+        <div class="flex justify-center my-10">
+            <n-pagination size="large" :page="page" :item-count="count" :page-size="pageSize"
+                :page-sizes="[1, 8, 12, 20, 40]" show-size-picker :on-update:page="handlePageChange"
+                :on-update:page-size="handlePageSizeChange" />
+        </div>
     </LoadingGroup>
 </template>
 <script setup>
-import { NGrid, NGi} from 'naive-ui'
+import { NGrid, NGi, NPagination } from 'naive-ui'
 
 const tabs = [{
     label: "课程",
@@ -33,6 +37,11 @@ definePageMeta({
 const route = useRoute()
 const title = ref(route.query.keyword)
 const { type, page } = route.params
+const pageSize = ref(1)
+//处理直接在搜索栏修改pageSize
+if (route.query.pageSize && route.query.pageSize > 0) {
+    pageSize.value = route.query.pageSize
+}
 
 useHead({
     title
@@ -55,7 +64,8 @@ function tabItemClick(item) {
 const { data, pending, error, refresh } = await searchDataApi(() => {
     return {
         type,
-        page: 1,
+        page: page,
+        limit: pageSize.value,
         keyword: encodeURIComponent(title.value)
     }
 })
@@ -67,17 +77,45 @@ const rows = computed(() => {
     //     data.value.rows[0].cover = 'http://test.com'
     //     console.log(data.value.rows[0])
     // }
-    
+
     return data.value?.rows ?? []
 })
+const count = computed(() => data.value?.count)
 
 //监听keyword的变化重新进行网络请求
-const stop = watch(()=>route.query.keyword,(newVal)=>{
+const stop = watch(() => route.query.keyword, (newVal) => {
     title.value = newVal
     refresh()
 })
 
-onBeforeUnmount(()=>stop())
+//监听pageSize的变化重新进行网络请求
+const pageSizeStop = watch(() => route.query.pageSize, (newVal) => {
+    refresh()
+})
+
+onBeforeUnmount(() => {
+    stop()
+    pageSizeStop()
+})
+
+//分页页面变化监听
+function handlePageChange(p) {
+    navigateTo({
+        params: {
+            ...route.params,
+            type,
+            page: p
+        },
+        query: {
+            ...route.query
+        }
+    })
+}
+
+//分页size变化监听
+function handlePageSizeChange(ps) {
+    pageSize.value = ps
+}
 
 </script>
 <style scoped></style>
