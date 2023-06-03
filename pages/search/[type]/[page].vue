@@ -13,13 +13,95 @@
             </n-gi>
         </n-grid>
         <div class="flex justify-center my-10">
-            <n-pagination size="large" :page="page" :item-count="count" :page-size="pageSize"
+            <n-pagination size="large" :page="page" :item-count="total" :page-size="pageSize"
                 :page-sizes="[1, 8, 12, 20, 40]" show-size-picker :on-update:page="handlePageChange"
                 :on-update:page-size="handlePageSizeChange" />
         </div>
     </LoadingGroup>
 </template>
 <script setup>
+import { TabletLandscapeOutline } from '@vicons/ionicons5';
+import { NGrid, NGi, NPagination } from 'naive-ui'
+
+const tabs = [{
+    label: "课程",
+    value: "course"
+}, {
+    label: "专栏",
+    value: "column"
+}]
+
+definePageMeta({
+    middleware: ['search']
+})
+
+const route = useRoute()
+const title = ref(route.query.keyword)
+const type = ref(route.params.type)
+
+useHead({
+    title
+})
+
+function tabItemClick(item) {
+    navigateTo({
+        params: {
+            ...route.params,
+            type: item.value,
+            page: 1
+        },
+        query: {
+            ...route.query
+        }
+    })
+}
+
+//注意：这里使用回调函数返回动态参数，因为keyword会变化，如果直接传入对象那么refresh中的keyword不会变
+let { data, pending, error, refresh,
+    page, pageSize, rows, total, handlePageChange, handlePageSizeChange } = await usePage(({page, pageSize}) => {
+        return searchDataApi(() => {
+            return {
+                type: type.value,
+                page: page,
+                limit: pageSize.value,
+                keyword: encodeURIComponent(title.value)
+            }
+        })
+    })
+
+
+    // rows.value.push({
+    //         cover: 
+    //         "http://demo-mp3.oss-cn-shenzhen.aliyuncs.com/egg-edu-demo/5cb264268d50e7ebbc16.png",
+    //         id
+    //         : 
+    //         935,
+    //         price
+    //         : 
+    //         "0.20",
+    //         t_price
+    //         : 
+    //         "0.20",
+    //         title
+    //         : 
+    //         "Vue3实战商城后台管理系统开发1111111",
+    //         type
+    //         : 
+    //         "media"
+    //     })
+
+//监听keyword的变化重新进行网络请求
+const keywordWatch = watch(() => route.query.keyword, (newVal) => {
+    title.value = newVal
+    refresh()
+})
+
+onBeforeUnmount(() => {
+    keywordWatch()
+})
+</script>
+
+<!-- <script setup>
 import { NGrid, NGi, NPagination } from 'naive-ui'
 
 const tabs = [{
@@ -132,5 +214,5 @@ function handlePageSizeChange(ps) {
     })
 }
 
-</script>
+</script> -->
 <style scoped></style>
