@@ -1,6 +1,8 @@
 <template>
     <template v-if="loading">
-        <loading-skeleton></loading-skeleton>
+        <slot name="loading">
+                <LoadingSkeleton/>
+        </slot>
     </template>
     <template v-else-if="error">
         <!-- 页面错误处理 -->
