@@ -21,13 +21,12 @@
                 </template>
             </n-button>
 
-            <NuxtLink to="/login">
+            <NuxtLink to="/login" v-if="!user">
                 <n-button text size="large">登录</n-button>
             </NuxtLink>
-
-            <!-- <n-dropdown :options="userOptions">
-                <n-avatar round size="small" src="https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg" />
-            </n-dropdown> -->
+            <n-dropdown :options="userOptions" v-else>
+                <n-avatar round size="small" :src="user.avater || 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg'" />
+            </n-dropdown>
         </div>
     </div>
     <div class="w-[100%] h-[80px]"></div>
@@ -52,6 +51,7 @@ const renderIcon = (icon: Component) => {
 }
 
 const route = useRoute()
+const user = useUser()
 
 const SearchBarRef = ref(null)
 

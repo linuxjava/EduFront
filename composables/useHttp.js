@@ -14,6 +14,10 @@ function useGetFetchOptions(options = {}){
     options.lazy = options.lazy ?? false
 
     // 用户登录，默认传token
+    const token = useCookie('token')
+    if(token.value) {
+        options.headers.token = token.value
+    }
 
     return options
 }
