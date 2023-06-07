@@ -6,6 +6,10 @@ export function useRegisterApi(body) {
     return useHttpPost('Reg', '/reg', {body})
 }
 
-export function useGetUserInfo() {
+export function useGetUserInfoApi() {
     return useHttpGet('GetUserInfo', '/getinfo')
+}
+
+export function useLogoutApi(){
+    return useHttpPost('Logout', '/logout')
 }

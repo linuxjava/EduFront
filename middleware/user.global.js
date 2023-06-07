@@ -1,3 +1,3 @@
-export default defineNuxtRouteMiddleware((to, from) => {
-    useRefreshUserInfo()
+export default defineNuxtRouteMiddleware(async (to, from) => {
+    await useRefreshUserInfo()
 })

@@ -17,3 +17,13 @@ export function useMessage(){
     const { message } = createDiscreteApi(["message"])
     return message
 }
+
+export function useDialogWarning(content, positiveText = "退出", negativeText = "取消", onPositiveCallback){
+    const { dialog } = createDiscreteApi(["dialog"])
+    dialog.warning({
+        content,
+        positiveText,
+        negativeText,
+        onPositiveClick: onPositiveCallback,
+    });
+}
