@@ -34,6 +34,14 @@ export async function useHttp(key,url,options = {}){
         },
     })
 
+    // 客户端错误处理
+    if(process.client && res.error.value){
+        const msg = res.error.value?.data?.data
+        if(!options.lazy){
+            useMessage().error(msg || '服务端错误')
+        }
+    }
+
     return res
 }
 

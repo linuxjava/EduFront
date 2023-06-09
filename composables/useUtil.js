@@ -13,6 +13,22 @@ export function useQueryToString(query = {}){
     return q
 }
 
+// 回车事件
+export function useEnterEvent(event){
+    function handleEnterEvent(e){
+        console.log(e.key)
+        if (e.key === "Enter") {
+            console.log('send')
+            event()
+            // 取消事件的默认动作
+            e.preventDefault();
+        }
+    }
+    
+    onBeforeMount(()=>document.addEventListener("keydown",handleEnterEvent))
+    onUnmounted(()=> document.removeEventListener("keydown",handleEnterEvent))
+}
+
 export function useMessage(){
     const { message } = createDiscreteApi(["message"])
     return message

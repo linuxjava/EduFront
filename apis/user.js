@@ -13,3 +13,11 @@ export function useGetUserInfoApi() {
 export function useLogoutApi(){
     return useHttpPost('Logout', '/logout')
 }
+
+export function useGetCaptcha(body) {
+    return useHttpPost('GetCaptcha', '/get_captcha', {body})
+}
+
+export function useBindPhone(body){
+    return useHttpPost('BindPhone', '/bind_mobile', {body})
+}
