@@ -41,14 +41,9 @@ const handleSerach = () => {
     })
 }
 
-function handleKeydownEvent(e) {
-    if(e.key === 'Enter' && keyword.value) {
-        handleSerach()
-    }
-}
-
-const addKeydownEvent = () => document.addEventListener('keydown', handleKeydownEvent)
-const removeKeydownEvent = () => document.removeEventListener('keydown', handleKeydownEvent)
+useEnterEvent(() => {
+    handleSerach()
+})
 
 defineExpose({
     open

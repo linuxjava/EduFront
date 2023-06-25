@@ -143,15 +143,9 @@ function loginOrReg(){
     })
 }
 
-//监听enter
-function handleKeydownEvent(e) {
-    if(e.key === 'Enter') {
-        loginOrReg()
-    }
-}
-
-onMounted(() => document.addEventListener('keydown', handleKeydownEvent))
-onBeforeUnmount(() => document.removeEventListener('keydown', handleKeydownEvent))
+useEnterEvent(() => {
+    loginOrReg()
+})
 
 </script>
 <style scoped></style>

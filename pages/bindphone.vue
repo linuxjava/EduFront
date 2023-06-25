@@ -25,7 +25,7 @@
     </div>
 </template>
 <script setup>
-import { el } from 'date-fns/locale';
+
 import { NCard, NForm, NFormItem, NButton, NInput, NInputGroup } from 'naive-ui'
 
 definePageMeta({
@@ -89,7 +89,6 @@ const sendCode = async () => {
 }
 
 async function bindPhone() {
-    console.log('adsasd')
     formRef.value.validate(async (errors)=>{
         if(errors)return
 
@@ -106,7 +105,6 @@ async function bindPhone() {
 }
 
 useEnterEvent(() => {
-    console.log('1111')
     bindPhone()
 })
 </script>
