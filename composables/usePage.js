@@ -1,7 +1,7 @@
-export async function usePage(initListApiCallback) {
+export async function usePage(initListApiCallback, initPageSize) {
     const route = useRoute()
     const page = ref(parseInt(route.params.page))
-    const pageSize = ref(12)//默认值
+    const pageSize = ref(initPageSize || 12)//默认值
     //处理直接在搜索栏修改pageSize
     if (route.query.pageSize && route.query.pageSize > 0) {
         pageSize.value = route.query.pageSize

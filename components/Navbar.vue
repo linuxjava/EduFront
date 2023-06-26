@@ -40,8 +40,6 @@ import {
     LogOutOutline as LogoutIcon
 } from "@vicons/ionicons5"
 import type { Component } from 'vue'
-import { activeHead } from 'unhead';
-import { el } from 'date-fns/locale';
 
 const renderIcon = (icon: Component) => {
     return () => {
@@ -179,7 +177,7 @@ function search() {
 
 function handleSelectDropdown(key: string | number) {
     if(key === 'center') {
-
+        navigateTo({path: '/user/history/1'})
     } else if(key === 'logout') {
         useDialogWarning('是否要退出登录', '退出', '取消', async () => {
             await useLogout()
