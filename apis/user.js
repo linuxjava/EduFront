@@ -24,4 +24,22 @@ export function useBindPhone(body){
 
 export function useForget(body){
     return useHttpPost('Forget', '/forget', {body})
+// 获取学习记录
+export function useUserHistoryApi(query){
+    return useHttpGet("userHistory",()=>{
+        let q = useQueryToString(query())
+        return `/user_history/list${q}`
+    },{
+        lazy:true
+    })
+}
+
+// 购买记录
+export function useOrderListApi(query){
+    return useHttpGet("orderList",()=>{
+        let q = useQueryToString(query())
+        return `/order/list${q}`
+    },{
+        lazy:true
+    })
 }

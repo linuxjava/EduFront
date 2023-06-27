@@ -1,7 +1,7 @@
 <template>
     <template v-if="loading">
         <slot name="loading">
-                <LoadingSkeleton/>
+            <LoadingSkeleton />
         </slot>
     </template>
     <template v-else-if="error">
@@ -12,13 +12,18 @@
             </template>
         </n-result>
     </template>
+    <template v-else-if="isEmpty">
+        <!-- 空数据处理 -->
+        <n-empty size="huge" :description="desc" class="mt-30">
+        </n-empty>
+    </template>
     <template v-else>
         <slot></slot>
     </template>
 </template>
 <script setup>
-import { NResult, NButton, NSkeleton } from 'naive-ui'
-import {onBeforeUnmount} from 'vue'
+import { NResult, NButton, NSkeleton, NEmpty } from 'naive-ui'
+import { onBeforeUnmount } from 'vue'
 
 const props = defineProps({
     pending: {
@@ -28,12 +33,20 @@ const props = defineProps({
     error: {
         type: [String, Boolean, Symbol],
         default: false
+    },
+    isEmpty: {
+        type: Boolean,
+        default: false
+    },
+    desc: {
+        type: String,
+        default: '暂无数据'
     }
 })
 
 const loading = ref(false)
 const stopWatch = watchEffect(() => {
-    if (props.pending && !loading.value){
+    if (props.pending && !loading.value) {
         loading.value = true
     } else {
         setTimeout(() => {

@@ -23,7 +23,6 @@
     </LoadingGroup>
 </template>
 <script setup>
-import { TabletLandscapeOutline } from '@vicons/ionicons5';
 import { NGrid, NGi, NPagination } from 'naive-ui'
 
 const tabs = [{
@@ -70,7 +69,7 @@ let { data, pending, error, refresh,
                 keyword: encodeURIComponent(title.value)
             }
         })
-    })
+    }, 12)
 
 
     // rows.value.push({
