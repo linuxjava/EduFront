@@ -1,3 +1,6 @@
+/**
+ * 用于搜索页面
+ */
 export default defineNuxtRouteMiddleware((to, from) => {
     if(!to.query.keyword) {
         return abortNavigation("搜索关键词不能为空")

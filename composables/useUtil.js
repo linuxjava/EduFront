@@ -16,7 +16,6 @@ export function useQueryToString(query = {}){
 // 回车事件
 export function useEnterEvent(event){
     function handleEnterEvent(e){
-        console.log(e.key)
         if (e.key === "Enter") {
             console.log('send')
             event()

@@ -1,3 +1,4 @@
+//获取state中存储的user，如果没有则返回一个响应式对象，但对象的value为下面返回的默认值null
 export const useUser = () => useState("user", () => null)
 
 //获取用户信息

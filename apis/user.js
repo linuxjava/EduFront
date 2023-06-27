@@ -21,3 +21,7 @@ export function useGetCaptcha(body) {
 export function useBindPhone(body){
     return useHttpPost('BindPhone', '/bind_mobile', {body})
 }
+
+export function useForget(body){
+    return useHttpPost('Forget', '/forget', {body})
+}

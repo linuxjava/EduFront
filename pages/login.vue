@@ -35,7 +35,8 @@
 <script setup>
 import { NCard, NForm, NFormItem, NButton, NInput } from 'naive-ui'
 definePageMeta({
-    layout: "login"
+    layout: "login",
+    middleware: ['only-visitor']
 })
 
 const title = ref('登录')

@@ -10,9 +10,7 @@
                 <n-form-item path="code" class="mt-4">
                     <n-input-group>
                         <n-input type="text" class="w-[75%]" v-model:value="form.code" placeholder="验证码" size="large" clearable/>
-                        <n-button type="primary" class="w-[25%]" :disabled="!form.phone || (counter > 0)" @click="sendCode" :loading="codeLoading">
-                            {{ text }}
-                        </n-button>
+                        <SendCode :phone="form.phone"></SendCode>
                     </n-input-group>
                 </n-form-item>
 
@@ -25,7 +23,6 @@
     </div>
 </template>
 <script setup>
-import { el } from 'date-fns/locale';
 import { NCard, NForm, NFormItem, NButton, NInput, NInputGroup } from 'naive-ui'
 
 definePageMeta({
@@ -39,9 +36,6 @@ const form = ref({
 })
 const route = useRoute()
 const loading = ref(false)
-const codeLoading = ref(false)
-const timer = ref(null)
-const counter = ref(0)
 const formRef = ref(null)
 
 const rules = {
@@ -61,35 +55,7 @@ const rules = {
     ]
 }
 
-const text = computed(()=>{
-    if(loading.value){
-        return "发送中..."
-    }
-    if(counter.value > 0){
-        return `${counter.value} s`
-    }
-    return "发送验证码"
-})
-
-const sendCode = async () => {
-    codeLoading.value = true
-    const {data, error} = await useGetCaptcha(form)
-    codeLoading.value = false
-    if(error.value) return
-
-    if(timer.value) clearInterval(timer.value)
-    counter.value = 60
-    timer.value = setInterval(() => {
-        counter.value--
-        if(counter.value <= 0) clearInterval(timer.value)
-    }, 1000)
-
-    const msg = data.value == "ok" ? "发送成功" : `当前是演示模式，你的验证码是:${data.value}`
-    useMessage().success(msg)
-}
-
 async function bindPhone() {
-    console.log('adsasd')
     formRef.value.validate(async (errors)=>{
         if(errors)return
 
@@ -106,7 +72,6 @@ async function bindPhone() {
 }
 
 useEnterEvent(() => {
-    console.log('1111')
     bindPhone()
 })
 </script>

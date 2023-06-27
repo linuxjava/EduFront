@@ -13,7 +13,7 @@
     </div>
 </template>
 <script setup>
-import { NGrid, NGi} from 'naive-ui'
+import { NGrid, NGi, NButton} from 'naive-ui'
 
 const props = defineProps({
     title: String,
