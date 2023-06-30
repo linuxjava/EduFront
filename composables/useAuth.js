@@ -34,3 +34,23 @@ export async function useLogout(){
         navigateTo('/', {replace: true})
     }
 }
+
+// 检查用户是否已具备权限(登录并且绑定手机号之后才能操作)
+export function useHasAuth(callback = null) {
+    const route = useRoute()
+    const token = useCookie('token')
+    if(!token.value) {
+        useMessage().error('请先登录')
+        return navigateTo('/login?from=' + route.fullPath)
+    }
+
+    const user = useUser()
+    if(!user && !user.value?.phone){
+        useMessage().error('请绑定手机号')
+        return navigateTo('/bindphone?from=' + route.fullPath)
+    }
+
+    if(callback && typeof callback === "function"){
+        callback()
+    }
+}

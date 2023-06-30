@@ -177,7 +177,7 @@ function search() {
 
 function handleSelectDropdown(key: string | number) {
     if(key === 'center') {
-        navigateTo({path: '/user/history/1'})
+        navigateTo({path: '/user/history/1', query: {tab: 'course'}})
     } else if(key === 'logout') {
         useDialogWarning('是否要退出登录', '退出', '取消', async () => {
             await useLogout()

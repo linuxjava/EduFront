@@ -14,8 +14,8 @@
         </UiCardBody>
 
         <UiCardFooter class="flex mt-2 text-gray-400 px-4 items-center">
-            <span v-if="item.type != 'default'">{{ t[item.type] }}</span>
-            <Price :value="item.total_price" class="text-xs"></Price>
+            <span v-if="item.type != 'default'" class="mr-1">{{ t[item.type] }}</span>
+            <Price :value="item.total_price" class="!text-xs"></Price>
             <n-button type="primary" size="small" class="ml-auto" v-if="item.status === 'pendding'" @click="pay">
                 立即支付
             </n-button>
