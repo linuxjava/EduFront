@@ -55,3 +55,13 @@ export function useMyTestApi(query){
         lazy: true
     })
 }
+
+//我的帖子
+export function useMyPostApi(query) {
+    return useHttpGet('myPost', ()=>{
+        let q = useQueryToString(query())
+        return `/mypost${q}`
+    }, {
+        lazy: true
+    })
+}

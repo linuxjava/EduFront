@@ -8,7 +8,7 @@
         <LoadingGroup :pending="pending" :error="error" :isEmpty="rows.length === 0">
             <UserHistoryList v-for="(item, index) in rows" :key="index" :item="item"></UserHistoryList>
             <div class="flex justify-center pt-2">
-                <n-pagination size="large" :page="page" :item-count="total" :page-size="pageSize"
+                <n-pagination :page="page" :item-count="total" :page-size="pageSize"
                     :on-update:page="handlePageChange" />
             </div>
         </LoadingGroup>
