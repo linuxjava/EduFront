@@ -80,3 +80,13 @@ export function useUnSupportPostApi(body) {
 export function useDeletePostApi(body) {
     return useHttpPost('unSupportPost', '/post/delete', {body})
 }
+
+//优惠卷记录
+export function useMyCouponApi(query) {
+    return useHttpGet('myCoupon', ()=>{
+        let q = useQueryToString(query())
+        return `/user_coupon${q}`
+    }, {
+        lazy: true
+    })
+}
