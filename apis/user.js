@@ -65,3 +65,18 @@ export function useMyPostApi(query) {
         lazy: true
     })
 }
+
+//点赞
+export function useSupportPostApi(body) {
+    return useHttpPost('supportPost', '/post/support', {body})
+}
+
+//取消点赞
+export function useUnSupportPostApi(body) {
+    return useHttpPost('unSupportPost', '/post/unsupport', {body})
+}
+
+//删除帖子
+export function useDeletePostApi(body) {
+    return useHttpPost('unSupportPost', '/post/delete', {body})
+}

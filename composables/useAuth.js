@@ -54,3 +54,35 @@ export function useHasAuth(callback = null) {
         callback()
     }
 }
+
+//点赞和取消点赞通用方法
+export function useHandleSupportPost(){
+    const supportLoading = ref(false)
+    const handleSupport = (item) => {
+        useHasAuth(async () => {
+            // 行为判断
+            let type = item.issupport ? 'unsupport' : 'support'
+            let msg = item.issupport ? '取消点赞' : '点赞'
+
+            supportLoading.value = true
+            const {error} = item.issupport ? await useUnSupportPostApi({post_id: item.id}) : await useSupportPostApi({post_id: item.id})
+            supportLoading.value = false
+
+            if(error.value) {
+                return
+            }
+
+            if(item.issupport) {
+                item.support_count -= 1
+            } else {
+                item.support_count += 1
+            }
+
+            item.issupport = !item.issupport
+
+            useMessage().success(msg + '成功')
+        })
+    }
+
+    return {supportLoading, handleSupport}
+}

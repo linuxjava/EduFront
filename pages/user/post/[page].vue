@@ -2,7 +2,7 @@
     <div>
         <LoadingGroup :pending="pending" :error="error" :isEmpty="rows.length === 0">
             <div class="px-6 pt-6 pb-3">
-                <PostList v-for="(item, index) in rows" :key="index" :item="item"></PostList>
+                <PostList v-for="(item, index) in rows" :key="index" :item="item" @delete="deletePost"></PostList>
             </div> 
             <div class="flex justify-center pt-2">
                 <n-pagination :page="page" :item-count="total" :page-size="pageSize"
@@ -27,6 +27,18 @@ let { data, pending, error, refresh,
             }
         })
     }, 4)
+
+
+async function deletePost({ id,success,fail }){
+    const {error} = await useDeletePostApi({id})
+    if(error.value){
+        fail()
+        return
+    }
+
+    success()
+    refresh()
+}
 
 
 </script>
