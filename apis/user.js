@@ -90,3 +90,18 @@ export function useMyCouponApi(query) {
         lazy: true
     })
 }
+
+//我的收藏
+export function useMyFaveApi(query) {
+    return useHttpGet('myFava', ()=>{
+        let q = useQueryToString(query())
+        return `/user_fava${q}`
+    }, {
+        lazy: true
+    })
+}
+
+//取消收藏
+export function useUncollectApi(body) {
+    return useHttpPost('uncollect', '/uncollect', {body})
+}
