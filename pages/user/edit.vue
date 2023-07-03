@@ -15,7 +15,7 @@
                 <n-input type="text" v-model:value="form.nickname" size="large" placeholder="请输入昵称" />
             </n-form-item>
             <n-form-item label="性别: " path="sex">
-                <n-radio-group v-model:value="form.sex" name="sex">
+                <n-radio-group v-model:value="form.sex" name="sex" :default-value="form.sex">
                     <n-space>
                         <n-radio v-for="(item, index) in options" :key="index" :value="item.value">
                             {{ item.value }}
@@ -66,11 +66,25 @@ const options = [{
 
 // 初始化form
 if (user.value) {
-    form.avatar = user.value.avatar
-    form.nickname = user.value.nickname
-    form.sex = user.value.sex
+    form.value.avatar = user.value.avatar
+    form.value.nickname = user.value.nickname
+    form.value.sex = user.value.sex
 }
 
-function onSubmit() { }
+function onSubmit() {
+    useFormValidate(formRef, async () => {
+        loading.value = true
+        const { error, data } = await useUpdateInfoApi(form)
+        loading.value = false
+        if (error.value) {
+            return
+        }
+
+        useMessage().success('更新成功')
+
+        //刷新用户信息
+        useRefreshUserInfo()
+    })
+}
 </script>
 <style scoped></style>

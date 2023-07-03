@@ -105,3 +105,8 @@ export function useMyFaveApi(query) {
 export function useUncollectApi(body) {
     return useHttpPost('uncollect', '/uncollect', {body})
 }
+
+//修改资料
+export function useUpdateInfoApi(body) {
+    return useHttpPost('updateInfo', '/update_info', {body})
+}

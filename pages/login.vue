@@ -14,7 +14,7 @@
                 </n-form-item>
                 <div class="flex justify-between w-full mt-4">
                         <n-button text type="primary" @click="changeType"> {{ loginType === 'login' ? '注册' : '登录'}} </n-button>
-                        <n-button text type="primary">忘记密码</n-button>
+                        <n-button text type="primary" @click="forget">忘记密码</n-button>
                 </div>
 
                 <div class="mt-4">
@@ -147,6 +147,10 @@ function loginOrReg(){
 useEnterEvent(() => {
     loginOrReg()
 })
+
+function forget() {
+    navigateTo('/forget')
+}
 
 </script>
 <style scoped></style>
