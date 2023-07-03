@@ -45,7 +45,7 @@ export function useDialogWarning(content, positiveText = "退出", negativeText 
 
 //form校验
 export function useFormValidate(formRef, success) {
-    formRef.value.validate(async (errors) => {
+    formRef.value.validate((errors) => {
         if(errors) return
 
         success()
