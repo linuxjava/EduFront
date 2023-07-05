@@ -6,11 +6,10 @@
                 <!-- input必须添加size属性，否则报错 -->
                 <n-input type="text" v-model:value="user.username" disabled size="large" />
             </n-form-item>
-            <!-- <n-form-item label="头像: " path="">
-                <n-modal v-model:show="showModal" preset="card" style="width: 600px" title="一张很酷的图片">
-                    <img :src="previewImageUrl" style="width: 100%">
-                </n-modal>
-            </n-form-item> -->
+            <n-form-item label="头像: " path="avatar">
+                <!-- url: {{ form.avatar }} -->
+                <uploader v-model="form.avatar"></uploader>
+            </n-form-item>
             <n-form-item label="昵称: " path="nickname">
                 <n-input type="text" v-model:value="form.nickname" size="large" placeholder="请输入昵称" />
             </n-form-item>
@@ -40,9 +39,6 @@ const form = ref({
     sex: ""
 })
 const loading = ref(false)
-
-const showModalRef = ref(false)
-const previewImageUrlRef = ref('')
 
 const rules = {
     nickname: [{

@@ -25,7 +25,7 @@
                 <n-button text size="large">登录</n-button>
             </NuxtLink>
             <n-dropdown :options="userOptions" @select="handleSelectDropdown" v-else>
-                <n-avatar round size="small" :src="user.avater || 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg'" />
+                <n-avatar round size="small" :src="user.avatar || 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg'" />
             </n-dropdown>
         </div>
     </div>
@@ -51,6 +51,7 @@ const renderIcon = (icon: Component) => {
 
 const route = useRoute()
 const user = useUser()
+console.log(user.value)
 
 const SearchBarRef = ref(null)
 
