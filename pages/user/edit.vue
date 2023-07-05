@@ -4,14 +4,14 @@
         <n-form :model="form" ref="formRef" :rules="rules" label-width="80" label-placement="left" size="medium">
             <n-form-item label="用户名: ">
                 <!-- input必须添加size属性，否则报错 -->
-                <n-input type="text" v-model:value="user.username" disabled size="large" />
+                <n-input type="text" v-model:value="user.username" disabled size="large" clearable/>
             </n-form-item>
             <n-form-item label="头像: " path="avatar">
                 <!-- url: {{ form.avatar }} -->
                 <uploader v-model="form.avatar"></uploader>
             </n-form-item>
             <n-form-item label="昵称: " path="nickname">
-                <n-input type="text" v-model:value="form.nickname" size="large" placeholder="请输入昵称" />
+                <n-input type="text" v-model:value="form.nickname" size="large" placeholder="请输入昵称" clearable/>
             </n-form-item>
             <n-form-item label="性别: " path="sex">
                 <n-radio-group v-model:value="form.sex" name="sex" :default-value="form.sex">

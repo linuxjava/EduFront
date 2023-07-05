@@ -110,3 +110,8 @@ export function useUncollectApi(body) {
 export function useUpdateInfoApi(body) {
     return useHttpPost('updateInfo', '/update_info', {body})
 }
+
+//修改密码
+export function useUpdatePasswordAPi(body) {
+    return useHttpPost('updatePasswor', '/update_password', {body})
+}

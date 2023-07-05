@@ -26,7 +26,6 @@ const props = defineProps({
 
 //获取上传文件配置信息
 const { action, headers } = useUploadConfig()
-console.log(action, headers)
 
 //初始化fileList,组件外部绑定默认值
 let fileList = ref([])
