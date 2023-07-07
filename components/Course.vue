@@ -1,6 +1,6 @@
 <template>
     <div>
-        <n-card @click="$commonOpen(item)" class="cursor-pointer shadow-md !border-none
+        <n-card @click="open" class="cursor-pointer shadow-md !border-none
                          mt-4" content-style="padding: 0;" footer-style="padding: 0;">
             <template #cover>
                 <!-- <img :src="item.cover" class="w-[100%] h-[150px]"> -->
@@ -29,9 +29,13 @@
 <script setup>
 import { NCard } from 'naive-ui'
 
-defineProps({
+const props = defineProps({
     title: String,
     item: Object,
 })
+
+const open = ()=>{
+    navigateTo(`/detail/course/${props.item.id}`)
+}
 </script>
 <style scoped></style>

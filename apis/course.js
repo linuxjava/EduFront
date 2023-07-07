@@ -7,3 +7,11 @@ export function useCourseListApi(query) {
         lazy: true
     })
 }
+
+//课程详情页
+export function useCourseDetailApi(query) {
+    let q = useQueryToString(query)
+    return useHttpGet("readCourse",`/course/read${q}`,{
+        lazy:true
+    })
+}

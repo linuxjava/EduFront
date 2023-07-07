@@ -10,7 +10,7 @@
             </template>
             <n-grid x-gap="12" :cols="4">
                 <n-gi v-for="(item, index) in rows" :key="index">
-                    <Course :title="item.title" :item="item"></Course>
+                    <Course :item="item"></Course>
                 </n-gi>
             </n-grid>
             <div class="flex justify-center my-10">
