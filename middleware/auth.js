@@ -1,7 +1,7 @@
 /**
  * 检查是否登录和绑定手机号
  */
-defineNuxtRouteMiddleware((to, form) => {
+export default defineNuxtRouteMiddleware((to, form) => {
     const route = useRoute()
     const token = useCookie('token')
     if(!token.value && route.name != 'login') {

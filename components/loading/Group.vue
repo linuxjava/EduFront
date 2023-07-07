@@ -14,7 +14,7 @@
     </template>
     <template v-else-if="isEmpty">
         <!-- 空数据处理 -->
-        <n-empty size="huge" :description="desc" class="mt-30">
+        <n-empty size="huge" :description="desc" class="pt-30">
         </n-empty>
     </template>
     <template v-else>

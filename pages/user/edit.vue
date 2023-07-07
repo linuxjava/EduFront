@@ -30,7 +30,7 @@
 </template>
 <script setup>
 import { NForm, NFormItem, NButton, NInput, NInputGroup, NRadioGroup, NRadio, NSpace, NModal } from 'naive-ui'
-
+useHead({ title: '修改资料' })
 const formRef = ref(null)
 const user = useUser()
 const form = ref({

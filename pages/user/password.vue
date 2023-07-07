@@ -21,7 +21,7 @@
 </template>
 <script setup>
 import { NForm, NFormItem, NButton, NInput, NInputGroup, NRadioGroup, NRadio, NSpace, NModal } from 'naive-ui'
-
+useHead({ title: '修改密码' })
 const formRef = ref(null)
 const form = ref({
     opassword: "",
