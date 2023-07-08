@@ -11,7 +11,7 @@
 </script>
 <style scoped>
 .item {
-    @apply py-3 px-3 cursor-pointer text-gray-700 hover:(text-blue-400)
+    @apply py-2 px-3 cursor-pointer text-gray-700 hover:(text-blue-400)
 }
 
 .item-active {

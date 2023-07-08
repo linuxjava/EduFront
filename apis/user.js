@@ -106,6 +106,11 @@ export function useUncollectApi(body) {
     return useHttpPost('uncollect', '/uncollect', {body})
 }
 
+//收藏
+export function useCollectApi(body) {
+    return useHttpPost('collect', '/collect', {body})
+}
+
 //修改资料
 export function useUpdateInfoApi(body) {
     return useHttpPost('updateInfo', '/update_info', {body})
