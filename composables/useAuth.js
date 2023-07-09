@@ -4,18 +4,17 @@ export const useUser = () => useState("user", () => null)
 //获取用户信息
 export async function useRefreshUserInfo() {
     const token = useCookie('token')
-    const user = useUser()
-    if (!token.value) {
-        navigateTo('/login')
-        return
+    // 用户已登录，直接获取用户信息
+    if(token.value){
+        let {
+            data,
+            error
+        } = await useGetUserInfoApi()
+        if(data.value){
+            const user = useUser()
+            user.value = data.value
+        }
     }
-
-    const { data, error } = await useGetUserInfoApi()
-    if (error.value) {
-        return
-    }
-
-    user.value = data.value
 }
 
 // 退出登录

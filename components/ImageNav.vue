@@ -1,5 +1,5 @@
 <template>
-    <n-grid x-gap="12" :cols="4">
+    <n-grid x-gap="20" :cols="4">
         <n-gi v-for="(item, index) in data" :key="index">
             <n-card @click="$commonOpen(item)" class="cursor-pointer">
                 <template #cover>

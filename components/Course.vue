@@ -30,7 +30,6 @@
 import { NCard } from 'naive-ui'
 
 const props = defineProps({
-    title: String,
     item: Object,
 })
 

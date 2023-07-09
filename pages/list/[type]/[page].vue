@@ -8,7 +8,7 @@
             <template #loading>
                 <LoadingCourseSkeleton></LoadingCourseSkeleton>
             </template>
-            <n-grid x-gap="12" :cols="4">
+            <n-grid x-gap="20" :cols="4">
                 <n-gi v-for="(item, index) in rows" :key="index">
                     <Course :item="item"></Course>
                 </n-gi>

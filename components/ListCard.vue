@@ -5,9 +5,9 @@
             <n-button type="primary" quaternary class="ml-auto text-gray-400">查看更多</n-button>
         </div>
 
-        <n-grid x-gap="12" :cols="4">
+        <n-grid x-gap="20" :cols="4">
             <n-gi v-for="(item, index) in pdata" :key="index">
-                <Course :title="title" :item="item"></Course>
+                <Course :item="item"></Course>
             </n-gi>
         </n-grid>
     </div>
