@@ -51,7 +51,6 @@ const renderIcon = (icon: Component) => {
 
 const route = useRoute()
 const user = useUser()
-console.log(user.value)
 
 const SearchBarRef = ref(null)
 

@@ -34,7 +34,17 @@ const props = defineProps({
 })
 
 const open = ()=>{
-    navigateTo(`/detail/course/${props.item.id}`)
+    let path = ""
+    // 课程详情
+    if(["course","media","audio","video"].includes(props.item.type)){
+        path = `/detail/course/${props.item.id}`
+    }
+    // 专栏详情
+    else if(props.item.type == "column"){
+        path = `/detail/column/${props.item.id}`
+    }
+
+    navigateTo(path)
 }
 </script>
 <style scoped></style>

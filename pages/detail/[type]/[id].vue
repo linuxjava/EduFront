@@ -31,7 +31,10 @@
                                 @click="tabItemClick(item)">
                                 {{ item.label }}</UiTabItem>
                         </UiTab>
-                        <div v-html="data.isbuy ? data.content : data.try" class="mx-4 pb-4 pt-2"></div>
+                        <div v-if="curTab === 'detail'" v-html="data.isbuy ? data.content : data.try" class="mx-4 pb-4 pt-2"></div>
+                        <div v-else>
+                            <ColumnList v-for="(item, index) in data.column_courses" :key="index" :item="item"></ColumnList>
+                        </div>
                     </n-grid-item>
 
                     <n-grid-item :span="6" class="bg-white rounded pb-6">
@@ -52,24 +55,29 @@ const o = {
     video: "视频",
     audio: "音频"
 }
-const tabs = [{
+const tabs = ref([{
     label: "详情",
     value: "detail"
-}, {
-    label: "目录",
-    value: "dir"
-}]
+}])
 
 const curTab = ref('detail')
+console.log('asdfasdfas')
 
 const route = useRoute()
 const { type, id } = route.params
 const loading = ref(false)
 
+if(type === 'column') {
+    tabs.value.push({
+        label: "目录",
+        value: "dir"
+    })
+}
+
 const { data,
     error,
     pending,
-    refresh } = await useCourseDetailApi({ id })
+    refresh } = await useCommonDetailApi(type, { id })
 
 //因为该页面的title需要设置为课程名称，所以需要使用计算属性设置
 const title = computed(() => pending.value ? '课程详情' : data.value?.title)
@@ -90,14 +98,16 @@ function tabItemClick(item) {
 
 function onStudy(){
     useHasAuth(async () => {
-        loading.value = true
-        const{error} = await useLearnApi({
-            goods_id: data.value.id,
-            type
-        })
-        loading.value = false
-        if(error.value)return
-        refresh()
+        if(data.price === 0) {//免费
+            loading.value = true
+            const{error} = await useLearnApi({
+                goods_id: data.value.id,
+                type
+            })
+            loading.value = false
+            if(error.value)return
+            refresh()
+        }
     })
 }
 </script>

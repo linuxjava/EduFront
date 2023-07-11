@@ -27,11 +27,12 @@ definePageMeta({
 
 const route = useRoute()
 const title = route.meta.title
+const {type} = route.params
 
 let { data, pending, error, refresh,
     page, pageSize, rows, total, handlePageChange } = await usePage((
         { page, pageSize }) => {
-        return useCourseListApi(() => {
+        return useCommonListApi(type, () => {
             return {
                 page: page,
                 limit: pageSize.value
