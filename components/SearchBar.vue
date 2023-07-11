@@ -1,6 +1,5 @@
 <template>
-    <n-drawer v-model:show="drawer" placement="top" :on-after-enter="addKeydownEvent"
-         :on-after-leave="removeKeydownEvent">
+    <n-drawer v-model:show="drawer" placement="top">
             <!-- 这里需要用div包起来然后设置居中，否则不行 -->
             <div class="h-full items-center flex">
                 <n-input-group class="flex justify-center">

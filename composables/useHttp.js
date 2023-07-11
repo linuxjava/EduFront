@@ -26,6 +26,32 @@ export async function useHttp(key,url,options = {}){
     options = useGetFetchOptions(options)
     options.key = key
 
+    //$fetch可以在middleware中调用,user.global.js获取获取用户信息
+    if(options.$){
+        const data = ref(null)
+        const error = ref(null)
+        
+        return await $fetch(url,options).then(res=>{
+            data.value = res.data
+            return {
+                data,
+                error
+            }
+        }).catch(err=>{
+            const msg = err?.data?.data
+            if(process.client){
+                const { message } = createDiscreteApi(["message"])
+                message.error(msg || '服务端错误')
+            }
+            error.value = msg
+            return {
+                data,
+                error
+            }
+        })
+    }
+
+    //useFetch, useLazyFetch, useAsyncData and useLazyAsyncData only work during setup or Lifecycle Hooks
     let res = await useFetch(url,{
         ...options,
         // 相当于响应拦截器

@@ -1,5 +1,5 @@
 <template>
-<div class="border-b py-3 px-4 flex" @click="onOpen(item)">
+<div class="border-b py-3 px-4 flex hover:bg-blue-50" @click="onOpen(item)">
      <n-tag type="info" size="tiny" class="mr-2">{{ o[item.type] }}</n-tag>{{ item.title }}
      <span v-if="(+item.price) === 0" class="ml-auto text-red-500">免费</span>
 </div>

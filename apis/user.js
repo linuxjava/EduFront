@@ -7,7 +7,9 @@ export function useRegisterApi(body) {
 }
 
 export function useGetUserInfoApi() {
-    return useHttpGet('GetUserInfo', '/getinfo')
+    return useHttpGet('GetUserInfo', '/getinfo',{
+        $:true
+    })
 }
 
 export function useLogoutApi(){

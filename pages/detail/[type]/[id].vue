@@ -59,11 +59,13 @@ const tabs = ref([{
     label: "详情",
     value: "detail"
 }])
-
-const curTab = ref('detail')
-console.log('asdfasdfas')
-
 const route = useRoute()
+
+let curTab = ref('detail')
+if(route.query.tab === 'dir'){
+    curTab.value = 'dir'
+}
+
 const { type, id } = route.params
 const loading = ref(false)
 
@@ -94,6 +96,11 @@ const r = computed(() => {
 
 function tabItemClick(item) {
     curTab.value = item.value
+    navigateTo({
+        query: {
+            tab: item.value
+        }
+    })
 }
 
 function onStudy(){
