@@ -4,6 +4,7 @@ export const useUser = () => useState("user", () => null)
 //获取用户信息
 export async function useRefreshUserInfo() {
     const token = useCookie('token')
+    const user = useUser()
     // 用户已登录，直接获取用户信息
     if(token.value){
         let {
@@ -11,7 +12,18 @@ export async function useRefreshUserInfo() {
             error
         } = await useGetUserInfoApi()
         if(data.value){
-            const user = useUser()
+            //如果将useUser调用放在下面这个地址，就会报如下错误,下面链接文档中有一些说明：
+            //A composable that requires access to the Nuxt instance was called outside of a plugin, Nuxt hook, Nuxt 
+            // middleware, or Vue setup function. This is probably not a Nuxt bug. Find out more at 
+            //`https://nuxt.com/docs/guide/concepts/auto-imports#using-vue-and-nuxt-composables`
+            // 大概意思是，在调用a composable方法前不能use await,以下场景除外：
+            // 1.within <script setup> blocks, 
+            // 2.within the setup function of a component declared with defineNuxtComponent
+            // 3.in defineNuxtPlugin 
+            // 4.in defineNuxtRouteMiddleware
+            //
+            // 因为useUser是在useRefreshUserInfo(是一个composable)中调用的且是在await后，所以不满足上面的条件
+            // const user = useUser()
             user.value = data.value
         }
     }
