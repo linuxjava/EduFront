@@ -21,8 +21,9 @@ export async function useRefreshUserInfo() {
             // 2.within the setup function of a component declared with defineNuxtComponent
             // 3.in defineNuxtPlugin 
             // 4.in defineNuxtRouteMiddleware
-            //
-            // 因为useUser是在useRefreshUserInfo(是一个composable)中调用的且是在await后，所以不满足上面的条件
+            // 原因：
+            // 1.因为useUser是在useRefreshUserInfo(是一个composable)中调用的且是在await后，所以不满足上面的条件
+            // 2.将这个方法整个代码拷贝到中间件中运行就没问题
             // const user = useUser()
             user.value = data.value
         }
