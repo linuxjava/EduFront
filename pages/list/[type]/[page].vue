@@ -6,11 +6,13 @@
         </n-breadcrumb>
         <LoadingGroup :pending="pending" :error="error">
             <template #loading>
-                <LoadingCourseSkeleton></LoadingCourseSkeleton>
+                <LoadingBookSkeleton v-if="type === 'book'"></LoadingBookSkeleton>
+                <LoadingCourseSkeleton v-else></LoadingCourseSkeleton>
             </template>
-            <n-grid x-gap="20" :cols="4">
+            <n-grid x-gap="20" :cols="type === 'book' ? 2 : 4">
                 <n-gi v-for="(item, index) in rows" :key="index">
-                    <Course :item="item"></Course>
+                    <BookList v-if="type === 'book'" :item="item"></BookList>
+                    <Course v-else :item="item"></Course>
                 </n-gi>
             </n-grid>
             <div class="flex justify-center my-10">
