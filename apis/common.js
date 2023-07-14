@@ -23,3 +23,8 @@ export function useCommonDetailApi(type, query) {
         lazy:true
     })
 }
+
+// 获取可用优惠券列表
+export function useCouponListApi(){
+    return useHttpGet("CouponList","/coupon/list")
+}

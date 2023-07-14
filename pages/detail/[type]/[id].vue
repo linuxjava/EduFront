@@ -14,7 +14,7 @@
                         <Price through :value="data.t_price" class="!text-xs ml-1"></Price>
                     </div>
                     <div class="mt-1" v-if="!data.isbuy">
-                        <n-tag :type="primary" class="bg-yellow-100 text-yellow-500" size="tiny">领取优惠卷</n-tag>
+                        <CouponPopover></CouponPopover>
                     </div>
 
                     <div class="!mt-auto" v-if="!data.isbuy">
@@ -50,6 +50,7 @@
 </template>
 <script setup>
 import { NImage, NTag, NButton, NGrid, NGridItem } from 'naive-ui'
+import CouponPopover from '~/components/CouponPopover.vue';
 const o = {
     media: "图文",
     video: "视频",

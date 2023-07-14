@@ -9,3 +9,8 @@ export function useLearnApi(body){
         body
     })
 }
+
+//领取优惠卷
+export function useCouponReceive(body) {
+    return useHttpPost('couponReceive', 'user_coupon/receive', {body})
+}
