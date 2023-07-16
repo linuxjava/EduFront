@@ -2,7 +2,7 @@
     <div class="pb-6">
         <LoadingGroup :pending="pending" :error="error">
             <section class="bg-white rounded px-3 py-2 flex">
-                <n-image :src="data.cover" class="w-[340px] h-[200px]" />
+                <n-image :src="data.cover" class="image" :class="{'book-image': type === 'book'}" />
                 <div class="ml-4 flex flex-col py-1">
                     <div class="flex items-center">
                         <span class="text-base">{{ data.title }}</span>
@@ -18,7 +18,12 @@
                     </div>
 
                     <div class="!mt-auto" v-if="!data.isbuy">
-                        <n-button type="primary" :loading="loading" @click="onStudy">立即学习</n-button>
+                        <template v-if="type === 'book'">
+                            <n-button v-if="freeChapterId" class="ml-2" type="primary" strong secondary 
+                            @click="learn({id: freeChapterId})">免费试看</n-button>
+                            <n-button v-else type="primary" disabled>敬请期待</n-button>
+                        </template>
+                        <n-button v-else type="primary" :loading="loading" @click="onStudy">立即学习</n-button>
                     </div>
                 </div>
             </section>
@@ -31,9 +36,13 @@
                                 @click="tabItemClick(item)">
                                 {{ item.label }}</UiTabItem>
                         </UiTab>
-                        <div v-if="curTab === 'detail'" v-html="data.isbuy ? data.content : data.try" class="mx-4 pb-4 pt-2"></div>
+                        <!-- 这里只有type == mdeia的才进行isbuy判断显示content还是try -->
+                        <div v-if="curTab === 'detail'" v-html="(data.type == 'media' && data.isbuy) ? data.content : data.try" class="mx-4 pb-4 pt-2"></div>
                         <div v-else>
-                            <ColumnList v-for="(item, index) in data.column_courses" :key="index" :item="item"></ColumnList>
+                            <DetailMenu v-if="menu && menu.length > 0">
+                                <DetailMenuItem v-for="(item, index) in menu" :key="index" :item="item" :index="index" @click="learn(item)"></DetailMenuItem>
+                            </DetailMenu>
+                            <Empty v-else></Empty>
                         </div>
                     </n-grid-item>
 
@@ -49,7 +58,7 @@
     </div>
 </template>
 <script setup>
-import { NImage, NTag, NButton, NGrid, NGridItem } from 'naive-ui'
+import { NImage, NTag, NButton, NGrid, NGridItem, NEmpty } from 'naive-ui'
 import CouponPopover from '~/components/CouponPopover.vue';
 const o = {
     media: "图文",
@@ -63,17 +72,17 @@ const tabs = ref([{
 const route = useRoute()
 
 let curTab = ref('detail')
-if(route.query.tab === 'dir'){
-    curTab.value = 'dir'
+if(route.query.tab === 'menu'){
+    curTab.value = 'menu'
 }
 
 const { type, id } = route.params
 const loading = ref(false)
 
-if(type === 'column') {
+if(type === 'column' || type === 'book') {
     tabs.value.push({
         label: "目录",
-        value: "dir"
+        value: "menu"
     })
 }
 
@@ -118,5 +127,46 @@ function onStudy(){
         }
     })
 }
+
+//获取电子书第一个免费是否章节id，如果有说明该电子说支持免费试看
+const freeChapterId = computed(() => { 
+    let id = 0;
+    if(type === 'book' && data.value && data.value.book_details) {
+        const item = data.value.book_details.find( item => item.isfree === 1)
+        if(item) {
+            id = item.id
+        }
+    }
+    return id
+})
+
+const menu = computed(() => {
+    return type === 'book' ? data.value.book_details : data.value.column_courses
+})
+
+// 点击目录菜单
+const learn = (item)=>{
+        useHasAuth(()=>{
+            // 专栏
+            if(type == "column" && item.price != 0 && !data.value.isbuy){
+                return useMessage().error("请先购买该专栏")
+            }
+            // 跳转
+            let url = ""
+            if(type == "column"){
+                url = `/detail/course/${item.id}?column_id=${data.value.id}`
+            } else if(type == 'book'){
+                url = `/book/${data.value.id}/${item.id}`
+            }
+            navigateTo(url)
+        })
+    }
 </script>
-<style></style>
+<style>
+.image{
+    @apply rounded w-[340px] h-[200px]
+}
+.book-image{
+    @apply rounded w-[130px] h-[180px]
+}
+</style>
