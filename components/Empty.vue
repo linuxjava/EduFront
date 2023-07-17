@@ -1,5 +1,5 @@
 <template>
-    <n-empty :description="desc" size="large" class="py-30"></n-empty>
+    <n-empty :description="desc" size="large" class="py-15"></n-empty>
 </template>
 <script setup>
 import {
