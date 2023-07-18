@@ -3,48 +3,49 @@
         <LoadingGroup :pending="pending" :error="error">
             <div class="bg-white rounded px-3 py-2">
                 <!-- 音频和视频有专门的顶部样式 -->
-                <section v-if="data.type === 'audio' || data.type === 'video'">
+                <div v-if="data.type === 'audio' || data.type === 'video' || data.type === 'live'">
                     <ClientOnly>
                         <!-- 这个是ClientOnly服务端渲染时的loading插槽 -->
                         <template #fallback>
                             <LoadingSkeleton />
                         </template>
                         <PlayerAudio v-if="data.type === 'audio'" :name="data.title" :url="data.content" :artist="音频" />
-                        <PlayerVideo v-if="data.type === 'video'" :url="data.content" />
+                        <PlayerVideo v-else-if="data.type === 'video'" :url="data.content" />
+                        <PlayerLive v-else-if="type === 'live'" :url="data.playUrl" />
                     </ClientOnly>
-                </section>
+                </div>
 
-                <section v-else class="flex">
-                    <div>
-                        <n-image :src="data.cover" class="image" :class="{ 'book-image': type === 'book' }" />
-                        <div class="ml-4 flex flex-col py-1">
-                            <div class="flex items-center">
-                                <span class="text-base">{{ data.title }}</span>
-                                <FavaBtn :isFava="data.isfava" :type="type" :goods_id="data.id" class="ml-2"></FavaBtn>
-                            </div>
-                            <span class="text-gray-300 mt-1">{{ r }}</span>
-                            <div class="mt-1" v-if="!data.isbuy">
-                                <Price :value="data.price"></Price>
-                                <Price through :value="data.t_price" class="!text-xs ml-1"></Price>
-                            </div>
-                            <div class="mt-1" v-if="!data.isbuy">
-                                <CouponPopover></CouponPopover>
-                            </div>
+                <div v-else class="flex">
+                    <n-image :src="data.cover" class="image" :class="{ 'book-image': type === 'book' }" />
+                    <div class="ml-4 flex flex-col py-1">
+                        <div class="flex items-center">
+                            <span class="text-base">{{ data.title }}</span>
+                            <FavaBtn :isFava="data.isfava" :type="type" :goods_id="data.id" class="ml-2"></FavaBtn>
+                        </div>
+                        <span class="text-gray-300 mt-1">{{ r }}</span>
+                        <div class="mt-1" v-if="!data.isbuy">
+                            <Price :value="data.price"></Price>
+                            <Price through :value="data.t_price" class="!text-xs ml-1"></Price>
+                        </div>
+                        
+                        <div>
+                            <LiveStatusBar v-if="type === 'live'" :start="data.start_time" :end="data.end_time"></LiveStatusBar>
+                            <CouponPopover v-else-if="!data.isbuy" class="mt-1"></CouponPopover>
+                        </div>
 
-                            <div class="!mt-auto" v-if="!data.isbuy">
-                                <template v-if="type === 'book'">
-                                    <template v-if="menu.length > 0">
-                                        <n-button type="primary" :loading="loading" @click="buy">立即学习</n-button>
-                                        <n-button v-if="freeChapterId" class="ml-2" type="primary" strong secondary
-                                            @click="learn({ id: freeChapterId })">免费试看</n-button>
-                                    </template>
-                                    <n-button v-else type="primary" disabled>敬请期待</n-button>
+                        <div class="!mt-auto" v-if="!data.isbuy">
+                            <template v-if="type === 'book'">
+                                <template v-if="menu.length > 0">
+                                    <n-button type="primary" :loading="loading" @click="buy">立即学习</n-button>
+                                    <n-button v-if="freeChapterId" class="ml-2" type="primary" strong secondary
+                                        @click="learn({ id: freeChapterId })">免费试看</n-button>
                                 </template>
-                                <n-button v-else type="primary" :loading="loading" @click="buy">立即学习</n-button>
-                            </div>
+                                <n-button v-else type="primary" disabled>敬请期待</n-button>
+                            </template>
+                            <n-button v-else type="primary" :loading="loading" @click="buy">立即学习</n-button>
                         </div>
                     </div>
-                </section>
+                </div>
             </div>
 
             <div class="mt-4">
@@ -199,6 +200,15 @@ function useInitHead() {
                 src: "/aplayer/APlayer.min.js",
             }, {
                 src: "//unpkg.byted-static.com/xgplayer/2.31.2/browser/index.js"
+            }]
+        })
+    }
+    if(type === "live"){
+        useHead({
+            script:[{
+                src:"//unpkg.byted-static.com/xgplayer/2.31.2/browser/index.js",
+            },{
+                src:"//unpkg.byted-static.com/xgplayer-flv/2.5.1/dist/index.min.js"
             }]
         })
     }

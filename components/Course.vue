@@ -35,13 +35,14 @@ const props = defineProps({
 
 const open = ()=>{
     let path = ""
-    // 课程详情
-    if(["course","media","audio","video"].includes(props.item.type)){
+    
+    if(["course","media","audio","video"].includes(props.item.type)){// 课程详情
         path = `/detail/course/${props.item.id}`
-    }
-    // 专栏详情
-    else if(props.item.type == "column"){
+    }else if(props.item.type == "column"){// 专栏详情
         path = `/detail/column/${props.item.id}`
+    }
+    else if(props.item.type == "live"){// 直播详情
+        path = `/detail/live/${props.item.id}`
     }
 
     navigateTo(path)

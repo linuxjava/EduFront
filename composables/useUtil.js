@@ -17,7 +17,6 @@ export function useQueryToString(query = {}){
 export function useEnterEvent(event){
     function handleEnterEvent(e){
         if (e.key === "Enter") {
-            console.log('send')
             event()
             // 取消事件的默认动作
             e.preventDefault();
@@ -50,4 +49,22 @@ export function useFormValidate(formRef, success) {
 
         success()
     })
+}
+
+// 时间状态判断
+export function useTimeStatus(start,end){
+    start = (new Date(start)).getTime()
+    end = (new Date(end)).getTime()
+    const now = Date.now()
+
+    let status = ""
+    if(start < now && now < end){
+        status = "ing"
+    } else if(start >= now){
+        status = "pending"
+    } else {
+        status = "end"
+    }
+
+    return status
 }
