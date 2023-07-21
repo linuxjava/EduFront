@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="flex mt-2">
-                <n-button type="primary" size="medium" @click="pay" class="ml-auto">确认支付</n-button>
+                <n-button type="primary" size="medium" @click="pay" class="ml-auto" :loading="loading">确认支付</n-button>
             </div>
         </section>
     </div>
@@ -67,6 +67,10 @@ import { NImage, NTag, NGrid, NGridItem, NButton, NIcon } from 'naive-ui'
 import {
     LogoWechat, LogoAlipay
 } from "@vicons/ionicons5"
+
+definePageMeta({
+    middleware: ['auth', 'createorder']
+})
 
 const t = {
     media: "图文",
@@ -107,15 +111,28 @@ function choosePayType(type){
 
 const payMoney = computed(() => {
     if(curCoupon.value) {
-        return data.value.price - (+curCoupon.value.price)
+        return (data.value.price * 1000 - (+curCoupon.value.price)  * 1000) / 1000
     }
     
     return data.value.price;
 })
 
 //支付
-function pay() {
+const loading = ref(false)
+async function pay() {
+    const d = {goods_id: id, type}
+    if(curCoupon.value) {
+        d.user_coupon_id = curCoupon.value.id
+    }
+    loading.value = true
+    const {data: orderData, error: orderError} = await useCreateOrder(d)
+    loading.value = false
+    if(orderError.value){
+        return
+    }
 
+    useMessage().success('创建订单成功')
+    navigateTo({path: `/pay?no=${orderData.value.no}`, replace: true})
 }
 </script>
 <style>

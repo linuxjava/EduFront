@@ -153,15 +153,15 @@ function buy() {
 
         let ty = 'course'
         if(type === 'book'){
-            type = 'book'
+            ty = 'book'
         }else if(type === 'live'){
-            type = 'live'
+            ty = 'live'
         }else if(type === 'column'){
-            type = 'column'
+            ty = 'column'
         }else if(type === 'flashsale'){
-            type = 'flashsale'
+            ty = 'flashsale'
         }else if(type === 'group'){
-            type = 'group'
+            ty = 'group'
         }
         navigateTo(`/createorder??type=${ty}&id=${data.value.id}`)
     })

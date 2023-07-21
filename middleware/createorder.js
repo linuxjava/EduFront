@@ -8,13 +8,12 @@ const t = {
 }
 
 export default defineNuxtRouteMiddleware((to, from) => {
-    const {type, page} = to.params
-    let title = t[type]
-    if(title && !isNaN(+page)) {
-        useHead({title: title + '列表'})
-        to.meta.title = title
+    const {id, type} = to.query
+    const title = t[type]
+    if(title && !isNaN(+id)) {
+        useHead({title: '创建订单'})
         return true
     }
 
     return abortNavigation('页面不存在')
-})
+ })

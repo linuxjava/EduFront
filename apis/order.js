@@ -10,3 +10,18 @@ export function useGetUserCouponApi(query){
     let q = useQueryToString(query)
     return useHttpGet("getUserCoupon", `/user_coupon${q}`)
 }
+
+//创建订单
+export function useCreateOrder(body){
+    return useHttpPost("createOrder", '/order/save', {body})
+}
+
+//微信PC支付
+export function useWxPcPay(body){
+    return useHttpPost('wxPcPay', 'order/wxpay', {body})
+}
+
+//查询订单是否支付成功
+export function useIsPaySucc(no) {
+    return useHttpPost('isPaySucc', '/order/iswxpay', {no})
+}
