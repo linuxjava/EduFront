@@ -134,7 +134,7 @@ function tabItemClick(item) {
         query: {
             tab: item.value
         }
-    })
+    }, {replace: true})
 }
 
 function buy() {
@@ -148,7 +148,22 @@ function buy() {
             loading.value = false
             if (error.value) return
             refresh()
+            return
         }
+
+        let ty = 'course'
+        if(type === 'book'){
+            type = 'book'
+        }else if(type === 'live'){
+            type = 'live'
+        }else if(type === 'column'){
+            type = 'column'
+        }else if(type === 'flashsale'){
+            type = 'flashsale'
+        }else if(type === 'group'){
+            type = 'group'
+        }
+        navigateTo(`/createorder??type=${ty}&id=${data.value.id}`)
     })
 }
 
