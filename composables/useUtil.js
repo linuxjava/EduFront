@@ -68,18 +68,3 @@ export function useTimeStatus(start,end){
 
     return status
 }
-
-/**
- * 将秒转为00:00:00
- * @param {} time 单位秒
- * @returns 
- */
-export function useToHHmmss(time){
-    // 秒 => 时分秒
-    let s;
-    let hours = parseInt((time % (60 * 60 * 24)) / (60 * 60));
-    let minutes = parseInt((time % (60 * 60)) / 60);
-    let seconds = time % 60;
-    s = (hours < 10 ? ('0' + hours) : hours) + ':' + (minutes < 10 ? ('0' + minutes) : minutes) + ':' + (seconds < 10 ? ('0' + seconds) : seconds);
-    return s;
-}

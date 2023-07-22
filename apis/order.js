@@ -17,11 +17,11 @@ export function useCreateOrder(body){
 }
 
 //微信PC支付
-export function useWxPcPay(body){
+export function useWxPcPayApi(body){
     return useHttpPost('wxPcPay', 'order/wxpay', {body})
 }
 
 //查询订单是否支付成功
-export function useIsPaySucc(no) {
-    return useHttpPost('isPaySucc', '/order/iswxpay', {no})
+export function useIsPaySuccApi(body) {
+    return useHttpPost('isPaySucc', '/order/iswxpay', {body})
 }

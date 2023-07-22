@@ -16,7 +16,7 @@
             </div>
         </section>
 
-        <section class="mt-6">
+        <section class="mt-6" v-if="data.price > 0">
             <h4 class="text-sm text-gray-500">优惠券</h4>
             <div class="flex mt-3">
                 <span v-if="couponData.rows.length === 0" class="text-gray-300">暂无优惠券</span>
@@ -57,7 +57,7 @@
                 </div>
             </div>
             <div class="flex mt-2">
-                <n-button type="primary" size="medium" @click="pay" class="ml-auto" :loading="loading">确认支付</n-button>
+                <n-button type="primary" size="medium" @click="pay" class="ml-auto" :loading="loading" :disabled="data.price == 0">确认支付</n-button>
             </div>
         </section>
     </div>
@@ -132,7 +132,7 @@ async function pay() {
     }
 
     useMessage().success('创建订单成功')
-    navigateTo({path: `/pay?no=${orderData.value.no}`, replace: true})
+    navigateTo(`/pay?no=${orderData.value.no}`, {replace: true})
 }
 </script>
 <style>

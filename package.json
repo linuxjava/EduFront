@@ -17,6 +17,6 @@
     "nuxt-windicss": "^2.6.1"
   },
   "dependencies": {
-    "qrcode": "^1.5.3"
+    "qrcode": "^1.5.1"
   }
 }
