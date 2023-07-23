@@ -1,13 +1,13 @@
 <template>
     <div class="bg-white rounded w-[600px] mx-auto py-6 px-4 mb-6 mt-2">
         <ClientOnly>
-            <section class="w-full mb-4" v-if="isExpire">
-                <n-alert title="支付已超时" type="error">
+            <section class="w-full mb-4">
+                <n-alert title="支付已超时" type="error" v-if="isExpire">
                     请刷新页面重新支付
                 </n-alert>
 
                 <n-alert title="支付成功" type="success" v-if="isPaySucc">
-                    正在跳转...
+                    正在跳转{{  skipCounter }}s...
                 </n-alert>
             </section>
 
@@ -58,7 +58,14 @@ function onExpire() {
 
 const timer = ref(null)
 const isPaySucc = ref(false)
-startInterval()
+const skipCounter = ref(8)
+
+//A composable that requires access to the Nuxt instance was called outside of a plugin, 
+// Nuxt hook, Nuxt middleware, or Vue setup function
+//这里要控制只在客户端渲染，否则服务端会报上面错误
+if(process.client) {
+    startInterval()
+}
 //启动定时器检查订单是否已支付
 function startInterval(){
     if(timer.value) {
@@ -71,40 +78,21 @@ function startInterval(){
 }
 
 function checkIsPaySucc(){
-    //A composable that requires access to the Nuxt instance was called outside of a plugin, 
-    // Nuxt hook, Nuxt middleware, or Vue setup function
-    //composable方法只能在上面场景中直接调用，如果在此方法中使用await useIsPaySuccApi，服务端会报上面错误
-    //因此需要改为如下方式
     useIsPaySuccApi({no}).then(res=>{
         if(!res.error.value && res.data.value.trade_state == "SUCCESS"){
             clearInterval(timer.value)
             isPaySucc.value = true
 
-            setTimeout(() => {
-                navigateTo('/user/buy/1', {replace: true})
-            }, 3000)
+
+            timer.value = setInterval(() => {
+                skipCounter.value--
+                if(skipCounter.value == 0) {
+                    clearInterval(timer.value)
+                    navigateTo('/user/buy/1', {replace: true})
+                }
+            }, 1000)
         }
     })
-
-    // const {data, error} = await useIsPaySuccApi({no})
-    // if(error.value){
-    //     if(timer.value) {
-    //         clearInterval(timer.value)
-    //     }
-    //     return
-    // }
-
-    // if(data.value.trade_state == 'NOTPAY'){
-    //     return
-    // }
-
-    // clearInterval(timer.value)
-    // isPaySucc.value = true
-
-    // timer.value = setInterval(() => {
-    //     clearInterval(timer.value)
-    //     navigateTo('/user/buy/1', {replace: true})
-    // }, 5000)
 }
 
 onBeforeUnmount(() => {if(timer.value) clearInterval(timer.value)})
