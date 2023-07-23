@@ -1,6 +1,7 @@
 <template>
     <div class="flex justify-center">
-        <n-image height="280px" width="280px" :src="src" class="border"/>
+        <!-- 这里的宽高不能写280px，如果写上px会导致第一加载二维码不显示，必须刷新后才能显示 -->
+        <n-image :src="src" class="border" height="280" width="280"/>
     </div>
 </template>
 <script setup>
@@ -19,23 +20,6 @@ QRCode.toDataURL(props.data,{
 .then(url => {
     src.value = url
 })
-
-// const generateQR = async (text) => {
-//   try {
-//     const data = await QRCode.toDataURL(text, {
-//             width:280,
-//             height:280,
-//             margin:3
-//         })
-//     console.log(data)
-//     src.value = data
-//   } catch (err) {
-//     console.error(err)
-//   }
-// }
-
-// generateQR(props.data)
-
 
 </script>
 <style></style>
