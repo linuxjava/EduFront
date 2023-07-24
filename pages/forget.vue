@@ -98,7 +98,7 @@ const rules = {
 }
 
 function login(){
-    navigateTo('/')
+    navigateTo('/login')
 }
 
 function resetPwd() {

@@ -1,13 +1,13 @@
 export function useLoginApi(body) {
-    return useHttpPost('Login', '/login', {body})
+    return useHttpPostByFetch('Login', '/login', {body})
 }
 
 export function useRegisterApi(body) {
-    return useHttpPost('Reg', '/reg', {body})
+    return useHttpPostByFetch('Reg', '/reg', {body})
 }
 
 export function useGetUserInfoApi() {
-    return useHttpGet('GetUserInfo', '/getinfo',{
+    return useHttpGetByFetch('GetUserInfo', '/getinfo',{
         $:true
     })
 }
@@ -16,16 +16,19 @@ export function useLogoutApi(){
     return useHttpPost('Logout', '/logout')
 }
 
+//获取手机验证码
 export function useGetCaptcha(body) {
     return useHttpPost('GetCaptcha', '/get_captcha', {body})
 }
 
+//绑定手机号
 export function useBindPhone(body){
-    return useHttpPost('BindPhone', '/bind_mobile', {body})
+    return useHttpPostByFetch('BindPhone', '/bind_mobile', {body})
 }
 
+//忘记密码
 export function useForget(body){
-    return useHttpPost('Forget', '/forget', {body})
+    return useHttpPostByFetch('Forget', '/forget', {body})
 }
 
 // 获取学习记录
@@ -115,10 +118,10 @@ export function useCollectApi(body) {
 
 //修改资料
 export function useUpdateInfoApi(body) {
-    return useHttpPost('updateInfo', '/update_info', {body})
+    return useHttpPostByFetch('updateInfo', '/update_info', {body})
 }
 
 //修改密码
 export function useUpdatePasswordAPi(body) {
-    return useHttpPost('updatePasswor', '/update_password', {body})
+    return useHttpPostByFetch('updatePasswor', '/update_password', {body})
 }

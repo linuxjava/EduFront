@@ -109,9 +109,9 @@ function changeType(){
     title.value = loginType.value === 'login' ? '登录' : '注册'
     //route.meta.title = ''//这个动态设置没用
     formRef.value.restoreValidation()
-    form.username = ''
-    form.password = ''
-    form.repassword = ''
+    form.value.username = ''
+    form.value.password = ''
+    form.value.repassword = ''
 }
 
 function loginOrReg(){
@@ -122,7 +122,7 @@ function loginOrReg(){
 
         const isLogin = loginType.value === 'login'
         loading.value = true
-        const {data, error} =  isLogin ? await useLoginApi(form) : await useRegisterApi(form)
+        const {data, error} =  isLogin ? await useLoginApi(form.value) : await useRegisterApi(form.value)
         loading.value = false
         if(error.value) return
 
