@@ -3,8 +3,10 @@
         <n-tag type="primary" size="small" v-if="item.is_top">置顶</n-tag>
         {{ item.desc.text }}
         <div style="max-width:500px;" class="cursor-pointer my-3">
-            <n-image :src="url" v-for="(url, index) in item.desc.images" :key="index" class="mr-3 rounded"
+            <n-image-group>
+                <n-image :src="url" v-for="(url, index) in item.desc.images" :key="index" class="mr-3 rounded"
                 style="object-fit: cover;" :class="item.desc.images.length === 1 ? 'one-img' : 'multi-img'" />
+            </n-image-group>
         </div>
 
         <div class="flex">
@@ -31,19 +33,23 @@
 
             <span class="mr-3">作者：{{ item.user.name }}</span>
 
-            <n-button type="error" size="tiny" @click="deletePost(item)" :loading="deleteLoading">删除</n-button>
+            <n-button type="error" size="tiny" @click="deletePost(item)" :loading="deleteLoading" v-if="showDel">删除</n-button>
             
         </div>
     </div>
 </template>
 <script setup>
-import { NTag, NImage, NButton, NIcon } from "naive-ui"
+import { NTag, NImage, NButton, NIcon, NImageGroup } from "naive-ui"
 import {
     ThumbsUpSharp,
     ChatboxEllipsesOutline
 } from '@vicons/ionicons5'
 const props = defineProps({
-    item: Object
+    item: Object,
+    showDel: {
+        type: Boolean,
+        default: true
+    }
 })
 const emit = defineEmits(['delete'])
 

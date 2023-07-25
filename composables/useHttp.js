@@ -31,8 +31,6 @@ export async function useHttp(key,url,options = {}){
     //It can also be used in your whole application with the $fetch alias
     //$fetch可以在middleware中调用,user.global.js获取获取用户信息
     if(options.$){
-        console.log(options)
-
         const data = ref(null)
         const error = ref(null)
         return await $fetch(url,options).then(res=>{
