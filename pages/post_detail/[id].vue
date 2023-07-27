@@ -64,7 +64,7 @@
 
                 <n-grid-item :span="6">
                     <NuxtLink to="">
-                        <n-button type="primary" size="medium" @click="" class="w-[100%] mb-4">发布帖子</n-button>
+                        <n-button type="primary" size="medium" @click="addPost" class="w-[100%] mb-4">发布帖子</n-button>
                     </NuxtLink>
 
                     <div class="bg-white rounded  pb-6">
@@ -115,6 +115,13 @@ const { supportLoading, handleSupport } = useHandleSupportPost()
 const commentRef= ref(null)
 function handlCommentSuccess(){
     commentRef.value.handlePageChange(1)
+}
+
+/**
+ * 发帖
+ */
+function addPost() {
+    navigateTo('/post/add')
 }
 </script>
 <style></style>'

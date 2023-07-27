@@ -14,7 +14,7 @@
     </template>
     <template v-else-if="isEmpty">
         <!-- 空数据处理 -->
-        <n-empty size="huge" :description="desc" class="pt-30">
+        <n-empty size="huge" :description="desc" class="py-30">
         </n-empty>
     </template>
     <template v-else>
@@ -43,6 +43,7 @@ const props = defineProps({
         default: '暂无数据'
     }
 })
+console.log(props.desc)
 
 const loading = ref(false)
 const stopWatch = watchEffect(() => {

@@ -10,7 +10,7 @@
                 </n-form-item>
                 <n-form-item class="mt-2">
                     <div class="w-full flex justify-end">
-                        <n-button type="primary" :disabled="!form.content" size="medium" @click="onApply">回复</n-button>
+                        <n-button type="primary" :disabled="!form.content" size="medium" @click="onApply" :loading="loading">回复</n-button>
                         <n-button strong secondary type="tertiary" size="medium" @click="emit('cancel')"
                             class="ml-2">取消</n-button>
                     </div>
@@ -37,6 +37,8 @@ const props = defineProps({
 
 const emit = defineEmits(["success", "cancel"])
 
+const loading = ref(false)
+
 const rules = ref([
     {
         content: [
@@ -53,33 +55,35 @@ const form = ref({
 })
 
 
-async function onApply() {
-    // useHasAuth(() => {
-
-    // })
-    let body = {
-        post_id: parseInt(props.post_id),
-        content: form.value.content
-    }
-    if (props.reply_id != 0) {
-        body.reply_id = props.reply_id
-        body.reply_user = {
-            id: props.reply_user.id,
-            username: props.reply_user.name,
-            avatar: props.reply_user.avatar,
+function onApply() {
+    useHasAuth(async () => {
+        let body = {
+            post_id: parseInt(props.post_id),
+            content: form.value.content,
+            reply_id: 0
         }
-    }
+        if (props.reply_id != 0) {
+            body.reply_id = props.reply_id
+            body.reply_user = {
+                id: props.reply_user.id,
+                username: props.reply_user.username,
+                avatar: props.reply_user.avatar,
+            }
+        }
 
-    const { data, error } = await usePostReply(body)
+        loading.value = true
+        const { data, error } = await usePostReply(body)
+        loading.value = false
 
-    if (error.value) return
+        if (error.value) return
 
-    //这种情况是直接
-    if (props.showCancel) emit("cancel")
+        //当在评论区回复别人的评论时，评论成功后发"cancel"将评论区隐藏
+        if (props.showCancel) emit("cancel")
 
-    form.value.content = ''
-    useMessage().success('评论成功')
-    emit('success', data.value)
+        form.value.content = ''
+        useMessage().success('评论成功')
+        emit('success', data.value)
+    })
 }
 </script>
 <style></style>
