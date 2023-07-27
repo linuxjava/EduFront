@@ -26,7 +26,7 @@
                         <n-button type="primary" size="medium" @click="" class="w-[100%] mb-4">发布帖子</n-button>
                     </NuxtLink>
 
-                    <div class="bg-white rounded">
+                    <div class="bg-white rounded pb-6">
                         <div class="border-b h-[45px] flex items-center pl-3">
                             精品推荐
                         </div>
