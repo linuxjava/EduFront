@@ -27,6 +27,26 @@ const props = defineProps({
 const page = ref(1)
 const pageSize = ref(3)
 
+/**
+ * 详情页面评论成功和点击选择页面，这里page是要改变的
+ * @param {*} p 
+ */
+ const handlePageChange = (p) => {
+    page.value = p
+    refresh()
+}
+
+/**
+ * 回复别人的评论成功，刷新评论列表，不改变page
+ */
+function handleCommentSuccess(){
+    refresh()
+}
+
+defineExpose({
+    handlePageChange
+})
+
 let { data, pending, error, refresh, rows, total } = await usePage(() => {
         return usePostCommentList(() => {
             return {
@@ -37,23 +57,6 @@ let { data, pending, error, refresh, rows, total } = await usePage(() => {
         })
     }, 10)
 
-/**
- * 详情页面评论成功和点击选择页面，这里page是要改变的
- * @param {*} p 
- */
-const handlePageChange = (p) => {
-    page.value = p
-    refresh()
-}
-defineExpose({
-    handlePageChange
-})
 
-/**
- * 回复别人的评论成功，刷新评论列表，不改变page
- */
-function handleCommentSuccess(){
-    refresh()
-}
 </script>
 <style></style>
