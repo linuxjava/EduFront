@@ -9,7 +9,7 @@
                 </div>
             </template>
             <n-upload :action="action" v-model:file-list="fileList" list-type="image-card" :headers="headers"
-                max="1" accept="image/png, image/jpeg, image/gif" :on-error="handleError" name="file"
+                :max="max" accept="image/png, image/jpeg, image/gif" :on-error="handleError" name="file"
                 :on-finish="handleSuccess" :data="data"/>
         </ClientOnly>
     </div>
@@ -21,7 +21,11 @@ const props = defineProps({
     modelValue: String,
     data:{
         type: Object
-    }
+    },
+    max: {
+        type: Number,
+        default: 1
+    },
 })
 
 //获取上传文件配置信息
@@ -31,12 +35,23 @@ const { action, headers } = useUploadConfig()
 let fileList = ref([])
 initFileList()
 function initFileList() {
-    fileList.value = props.modelValue ? [{
-        id: props.modelValue,
-        name: props.modelValue,
-        status: 'finished',
-        url: props.modelValue
-    }] : []
+    if(typeof props.modelValue == "string"){
+        fileList.value = props.modelValue ? [{
+            id: props.modelValue,
+            name: props.modelValue,
+            status: 'finished',
+            url: props.modelValue
+        }] : []
+    } else {
+        fileList.value = props.modelValue.map(url=>{
+            return {
+                id: url,
+                name: url,
+                status: 'finished',
+                url: url
+            }
+        })
+    }
 }
 
 // 上传成功
@@ -74,7 +89,7 @@ function updateModelValue() {
         }
     })
     
-    emit("update:modelValue", urls[0] || "")
+    emit("update:modelValue", props.max == 1 ? (urls[0] || "") : urls)
 }
 </script>
 

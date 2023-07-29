@@ -53,11 +53,11 @@
                     <div class="px-6">
                         <n-divider  />
 
-                        <CommentInput class="mt-10 mb-15" @success="handlCommentSuccess" :post_id="id"></CommentInput>
+                        <CommentInput class="mt-10 mb-15" @success="handleCommentSuccess" :post_id="id" :show-cancel="false"></CommentInput>
 
                         <n-divider />
 
-                        <Comment ref="commentRef" class="text-sm" :post_id="id"></Comment>
+                        <Comment ref="CommentRef" class="text-sm" :post_id="id"></Comment>
                     </div>
 
                 </n-grid-item>
@@ -82,7 +82,6 @@
 import { NBreadcrumb, NBreadcrumbItem, NGrid, NGridItem, NButton, NImage, NImageGroup, NIcon, NDivider } from 'naive-ui'
 import {
     ThumbsUpSharp,
-    ChatboxEllipsesOutline
 } from '@vicons/ionicons5'
 
 definePageMeta({
@@ -112,9 +111,9 @@ const { supportLoading, handleSupport } = useHandleSupportPost()
 /**
  * 评论成功
  */
-const commentRef= ref(null)
-function handlCommentSuccess(){
-    commentRef.value.handlePageChange(1)
+const CommentRef = ref(null)
+function handleCommentSuccess(){
+    CommentRef.value.handlePageChange(1)
 }
 
 /**

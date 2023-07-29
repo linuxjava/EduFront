@@ -11,7 +11,7 @@
                 <n-form-item class="mt-2">
                     <div class="w-full flex justify-end">
                         <n-button type="primary" :disabled="!form.content" size="medium" @click="onApply" :loading="loading">回复</n-button>
-                        <n-button strong secondary type="tertiary" size="medium" @click="emit('cancel')"
+                        <n-button v-if="showCancel" strong secondary type="tertiary" size="medium" @click="emit('cancel')"
                             class="ml-2">取消</n-button>
                     </div>
                 </n-form-item>

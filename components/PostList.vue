@@ -57,6 +57,7 @@ const emit = defineEmits(['delete'])
 const {supportLoading, handleSupport} = useHandleSupportPost()
 
 function comment(item) {
+    navigateTo(`/post_detail/${item.id}`)
 }
 
 const deleteLoading = ref(false)

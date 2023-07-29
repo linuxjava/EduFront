@@ -43,7 +43,6 @@ const props = defineProps({
         default: '暂无数据'
     }
 })
-console.log(props.desc)
 
 const loading = ref(false)
 const stopWatch = watchEffect(() => {

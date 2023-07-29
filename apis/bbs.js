@@ -33,3 +33,8 @@ export function usePostCommentList(query){
         lazy:true
     })
 }
+
+//发帖
+export function usePostSave(body) {
+    return useHttpPost('postSave', '/post/save', {body})
+}

@@ -41,7 +41,7 @@ let { data, pending, error, refresh, rows, total } = await usePage(() => {
  * 详情页面评论成功和点击选择页面，这里page是要改变的
  * @param {*} p 
  */
-function handlePageChange(p){
+const handlePageChange = (p) => {
     page.value = p
     refresh()
 }
