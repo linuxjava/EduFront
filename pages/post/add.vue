@@ -2,10 +2,10 @@
     <div class="flex flex-col items-center">
         <ClientOnly>
             <div class="w-[600px]">
-                <!-- 不要加size="normal"，否则n-select显示有问题 
+                <!-- 
                 show-label要加上，减少上下padding
                 -->
-                <n-form ref="formRef" :model="form" :rules="rules" :show-label="false">
+                <n-form ref="formRef" :model="form" :rules="rules" :show-label="false" size="large">
 
                     <n-form-item path="bbs_id">
                         <n-select v-model:value="form.bbs_id" :options="options" placeholder="请选择主题" value-field="id"

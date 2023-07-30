@@ -1,10 +1,9 @@
 <template>
     <div class="pl-4 pr-10 py-6">
-        <!-- size为medium, label才能居中对齐，挺奇怪的-->
-        <n-form :model="form" ref="formRef" :rules="rules" label-width="80" label-placement="left" size="medium">
+        <n-form :model="form" ref="formRef" :rules="rules" label-width="80" label-placement="left">
             <n-form-item label="用户名: ">
                 <!-- input必须添加size属性，否则报错 -->
-                <n-input type="text" v-model:value="user.username" disabled size="large" clearable/>
+                <n-input type="text" v-model:value="username" disabled size="large" clearable/>
             </n-form-item>
             <n-form-item label="头像: " path="avatar">
                 <!-- url: {{ form.avatar }} -->
@@ -37,6 +36,9 @@ const form = ref({
     avatar: "",
     nickname: "",
     sex: ""
+})
+const username = computed(() => {
+    return user.value ? user.value.username : ""
 })
 const loading = ref(false)
 

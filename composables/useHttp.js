@@ -96,5 +96,9 @@ export function useHttpGetByFetch(key,url,options = {}){
 export function useHttpPostByFetch(key,url,options = {}){
     options.method = "POST"
     options.$ = true
+    if(isRef(options.body)){
+        options.body = options.body.value
+    }
+    
     return useHttp(key,url,options)
 }

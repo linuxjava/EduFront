@@ -80,9 +80,9 @@ function onApply() {
         //当在评论区回复别人的评论时，评论成功后发"cancel"将评论区隐藏
         if (props.showCancel) emit("cancel")
 
-        form.value.content = ''
+        // form.value.content = ''
         useMessage().success('评论成功')
-        emit('success', data.value)
+        // emit('success', data.value)
     })
 }
 </script>

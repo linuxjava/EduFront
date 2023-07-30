@@ -115,14 +115,14 @@ function changeType(){
 }
 
 function loginOrReg(){
-    formRef.value.validate(async (errors) => {
+    useFormValidate(formRef, async (errors) => {
         if(errors) {
             return
         }
 
         const isLogin = loginType.value === 'login'
         loading.value = true
-        const {data, error} =  isLogin ? await useLoginApi(form.value) : await useRegisterApi(form.value)
+        const {data, error} =  isLogin ? await useLoginApi(form) : await useRegisterApi(form)
         loading.value = false
         if(error.value) return
 
