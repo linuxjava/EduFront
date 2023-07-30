@@ -52,5 +52,11 @@ export default defineNuxtConfig({
     ],
     imports:{
         dirs:["apis"]
+    },
+    nitro:{
+        // 缩小捆绑包
+        minify:true,
+        // 关闭源映射生成
+        sourceMap:false
     }
 })
