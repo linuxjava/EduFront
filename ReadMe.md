@@ -131,9 +131,7 @@ include /www/server/panel/vhost/nginx/*.conf;
 
 
 
-## 部署
-
-### 本地编译工程
+## 本地编译工程
 
 nuxt.config.ts文件中添加如下配置
 
@@ -154,7 +152,7 @@ export default defineNuxtConfig({
 
 会在工程中编译生成.output目录。
 
-### 服务器操作
+## Linux服务器
 
 官网部署参考：https://nuxt.com/docs/getting-started/deployment
 
@@ -175,7 +173,9 @@ v16.13.0
 
 <img src='./images/2.png'></img>
 
-然后创建cosystem.config.js文件，内容如下
+### 部署方式一
+
+创建cosystem.config.js文件，内容如下
 
 ```js
 module.exports = {
@@ -198,4 +198,79 @@ pm2 start ecosystem.config.js
 # 然后使用下边的命令看一下启动的服务列表
 pm2 list
 ```
+然后通过如下访问网站
+```
+http://43.154.93.74:3000/
+```
+官网文档中介绍可以通过如下方式改变端口号，但测试无效
+```js
+module.exports = {
+  apps: [
+    {
+      name: 'nuxtApp',  // 设置启动项目名称
+      port: '4000',
+      exec_mode: 'cluster',
+      instances: 'max',
+      // 注意这里的相对路径。要访问到index.mjs就行了，如果你是整个.output一起放在服务器的话就和官方一样路写成./.output/server/index.mjs就好了
+      script: './server/index.mjs'
+    }
+  ]
+}
+```
 
+
+
+### 部署方式二
+
+创建package.json
+
+<img src='./images/3.png'></img>
+内容如下
+
+```js
+{
+    "scripts": {
+    	"start": "PORT=4000 node ./server/index.mjs"
+    }
+}
+```
+上面这种方式可以修改端口号
+
+**命令行方式启动**
+
+跳转到项目根目录，执行如下命令启动项目
+
+```js
+npm run start
+```
+**通过pm2管理项目**
+<img src='./images/4.png'></img>
+
+### nginx配置代理
+
+通过上面的方式启动的项目，访问是必须要加上端口号才能访问
+
+```js
+http://yydsit.com:4000
+或
+http://43.154.93.74:4000
+```
+可以通过nginx代理配置无需端口也能访问
+首先在/www/server/panel/vhost/nginx路径下创建edu-front.conf文件，内容如下
+```nginx
+server
+{
+    listen 80;
+    server_name localhost;
+    
+    location / {
+	  proxy_pass http://43.154.93.74:4000/;
+	}
+}
+```
+这样无须端口可直接访问
+```js
+http://yydsit.com
+或
+http://43.154.93.74
+```
